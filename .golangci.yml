@@ -1,0 +1,169 @@
+version: "2"
+output:
+  formats:
+    text:
+      path: stdout
+  sort-order:
+    - linter
+    - severity
+    - file
+linters:
+  enable:
+    - bodyclose
+    - copyloopvar
+    - dupl
+    - durationcheck
+    - errname
+    - errorlint
+    - exhaustive
+    - goconst
+    - gocritic
+    - gocyclo
+    - goprintffuncname
+    - gosec
+    - misspell
+    - mnd
+    - nakedret
+    - nilerr
+    - noctx
+    - prealloc
+    - predeclared
+    - revive
+    - staticcheck
+    - testifylint
+    - thelper
+    - unconvert
+    - unparam
+    - wastedassign
+    - whitespace
+    - zerologlint
+  settings:
+    dupl:
+      threshold: 100
+    errcheck:
+      check-type-assertions: true
+      check-blank: false
+    exhaustive:
+      default-signifies-exhaustive: true
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    gocritic:
+      disabled-checks:
+        - whyNoLint
+      enabled-tags:
+        - diagnostic
+        - experimental
+        - opinionated
+        - performance
+        - style
+    gocyclo:
+      min-complexity: 15
+    misspell:
+      locale: US
+    mnd:
+      ignored-numbers:
+        - "0"
+        - "1"
+        - "2"
+        - "3"
+      ignored-functions:
+        - make
+        - os.Exit
+        - strconv.*
+        - http.StatusText
+    nakedret:
+      max-func-lines: 5
+    prealloc:
+      simple: true
+      for-loops: true
+    revive:
+      rules:
+        - name: blank-imports
+          severity: error
+        - name: context-as-argument
+          arguments:
+            - allowTypesBefore: '*testing.T'
+          severity: error
+        - name: context-keys-type
+          severity: error
+        - name: dot-imports
+          severity: error
+        - name: error-naming
+          severity: error
+        - name: error-return
+          severity: error
+        - name: error-strings
+          severity: error
+        - name: exported
+          severity: warning
+        - name: if-return
+          severity: error
+        - name: increment-decrement
+          severity: error
+        - name: indent-error-flow
+          severity: error
+        - name: package-comments
+          severity: warning
+        - name: range
+          severity: error
+        - name: receiver-naming
+          severity: error
+        - name: time-naming
+          severity: error
+        - name: unexported-return
+          severity: error
+        - name: var-declaration
+          severity: error
+        - name: var-naming
+          severity: error
+    staticcheck:
+      checks:
+        - all
+    testifylint:
+      enable-all: true
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - dupl
+          - errcheck
+          - goconst
+          - gosec
+          - mnd
+          - noctx
+          - unparam
+        path: _test\.go
+      - linters:
+          - mnd
+        path: cmd/mock-ai/main\.go
+      - linters:
+          - revive
+        path: internal/
+        text: package-comments
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/asadk23/mock-ai
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

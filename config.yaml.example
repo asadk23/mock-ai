@@ -1,0 +1,36 @@
+# mock-ai configuration
+#
+# All settings have sensible defaults. This file is optional.
+# Environment variables override file settings using the MOCK_AI_ prefix.
+
+server:
+  # Host to bind the HTTP server to.
+  # Env: MOCK_AI_SERVER_HOST
+  host: "0.0.0.0"
+
+  # Port to listen on.
+  # Env: MOCK_AI_SERVER_PORT
+  port: 8080
+
+auth:
+  # Enable Bearer token authentication.
+  # When enabled, all requests must include an Authorization: Bearer <token> header.
+  # Env: MOCK_AI_AUTH_ENABLED
+  enabled: true
+
+  # Required token value. If empty, any non-empty Bearer token is accepted.
+  # Env: MOCK_AI_AUTH_TOKEN
+  token: ""
+
+fixtures:
+  # Path to a JSON file overriding the default chat completion fixture.
+  # Env: MOCK_AI_FIXTURES_CHAT_COMPLETION
+  chat_completion: ""
+
+  # Path to a JSON file overriding the default responses API fixture.
+  # Env: MOCK_AI_FIXTURES_RESPONSES
+  responses: ""
+
+  # Path to a JSON file overriding the default audio transcription fixture.
+  # Env: MOCK_AI_FIXTURES_AUDIO_TRANSCRIPTION
+  audio_transcription: ""

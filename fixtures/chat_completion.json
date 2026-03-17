@@ -1,0 +1,7 @@
+{
+  "content": "Hello! How can I help you today?",
+  "model": "gpt-4o-2024-08-06",
+  "system_fingerprint": "fp_mock_abc123",
+  "prompt_tokens": 25,
+  "completion_tokens": 10
+}
