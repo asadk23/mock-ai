@@ -11,6 +11,15 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - dockerfile: Dockerfile
+            suffix: ""
+            latest: latest
+          - dockerfile: Dockerfile.nonroot
+            suffix: -nonroot
+            latest: latest-nonroot
     steps:
       - uses: actions/checkout@v4
 
@@ -28,24 +37,13 @@ jobs:
         id: version
         run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
-      - name: Build and push (simple)
+      - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile
+          file: ${{ matrix.dockerfile }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/asadk23/mock-ai:${{ steps.version.outputs.version }}
-            ghcr.io/asadk23/mock-ai:latest
-
-      - name: Build and push (non-root)
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: Dockerfile.nonroot
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/asadk23/mock-ai:${{ steps.version.outputs.version }}-nonroot
-            ghcr.io/asadk23/mock-ai:latest-nonroot
+            ghcr.io/asadk23/mock-ai:${{ steps.version.outputs.version }}${{ matrix.suffix }}
+            ghcr.io/asadk23/mock-ai:${{ matrix.latest }}
