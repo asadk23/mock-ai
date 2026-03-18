@@ -210,6 +210,36 @@ Adding new dependencies requires discussion and a new ADR.
 
 ### Git & Commits
 
-- Conventional commit messages: `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`.
 - Keep commits atomic — one logical change per commit.
 - Do not commit generated files, binaries, or IDE configs.
+- **Squash-merge** PRs so the PR title becomes the commit message on `main`.
+
+#### Conventional Commits (required)
+
+All commit messages and PR titles **must** follow
+[Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+release-please parses these to decide version bumps and changelog entries.
+
+| Prefix | When to use | Triggers release? | SemVer bump |
+|---|---|---|---|
+| `feat:` | New feature or endpoint | Yes | MINOR |
+| `fix:` | Bug fix | Yes | PATCH |
+| `feat!:` / `fix!:` / `refactor!:` | Breaking change (append `!`) | Yes | MAJOR |
+| `docs:` | Documentation only | No | -- |
+| `test:` | Adding/fixing tests | No | -- |
+| `refactor:` | Code restructuring, no behavior change | No | -- |
+| `ci:` | CI/CD changes | No | -- |
+| `chore:` | Dependencies, tooling, config | No | -- |
+| `perf:` | Performance improvement | No | -- |
+| `build:` | Build system changes | No | -- |
+
+<!-- AGENT INSTRUCTION: If it is not clear whether a change is feat, fix,
+     refactor, or breaking — ASK the user before committing. Do not guess
+     the commit prefix. -->
+
+#### release-please
+
+Automated versioning via [release-please-action v4](https://github.com/googleapis/release-please-action).
+Config lives in `release-please-config.json` and `.release-please-manifest.json`.
+On push to `main`, release-please opens/updates a Release PR. Merging that PR
+creates the git tag (`vX.Y.Z`) and GitHub Release automatically.
