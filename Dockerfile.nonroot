@@ -1,0 +1,33 @@
+# Build stage
+FROM golang:1.25-alpine AS builder
+
+RUN apk add --no-cache ca-certificates tzdata
+
+WORKDIR /src
+
+# Cache dependency downloads.
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source and build a fully static binary.
+COPY . .
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /bin/mock-ai ./cmd/mock-ai
+
+# Runtime stage — alpine for non-root user support.
+FROM alpine:3
+
+# Import CA certs and timezone data.
+RUN apk add --no-cache ca-certificates tzdata \
+    && addgroup -S mockai \
+    && adduser -S -G mockai -h /home/mockai -s /sbin/nologin mockai
+
+# Copy binary and default fixtures.
+COPY --from=builder /bin/mock-ai /bin/mock-ai
+COPY fixtures/ /fixtures/
+
+# Drop to non-root user.
+USER mockai
+
+EXPOSE 8080
+
+ENTRYPOINT ["/bin/mock-ai"]

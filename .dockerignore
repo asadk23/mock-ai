@@ -1,0 +1,42 @@
+# Build artifacts
+bin/
+*.exe
+*.test
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CI/CD and docs (not needed in image)
+.github/
+docs/
+*.md
+!README.md
+LICENSE
+
+# Config overrides (users mount their own)
+config.yaml
+config.yaml.example
+
+# Test files
+test/
+**/*_test.go
+
+# Coverage
+coverage.out
+
+# Release
+.release-please-manifest.json
+release-please-config.json
+CHANGELOG.md
